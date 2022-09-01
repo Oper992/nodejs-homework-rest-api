@@ -54,7 +54,6 @@ router.post("/", async (req, res, next) => {
     }
 
     const results = await ctrl.postContact(newContact);
-    res.status(201).json(results);
   } catch (error) {
     next(error);
   }
@@ -118,4 +117,5 @@ router.patch("/:contactId/favorite", async (req, res, next) => {
     next(error);
   }
 });
+
 module.exports = router;
