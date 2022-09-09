@@ -1,15 +1,9 @@
 const express = require("express");
 const ctrl = require("../../controllers/contacts");
 const router = express.Router();
-const Joi = require("joi");
-const { RequestError } = require("../../helpers");
+const { contactTemplate } = require("../../models/contacts");
 
-const contactTemplate = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().required(),
-  phone: Joi.string().required(),
-  favorite: Joi.boolean().required(),
-});
+const { RequestError } = require("../../helpers");
 
 router.get("/", async (req, res, next) => {
   try {
