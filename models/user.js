@@ -5,38 +5,37 @@ const bcrypt = require("bcryptjs");
 
 const emailRegexp = /^[\w.]+@[\w]+.[\w]+$/;
 
-const userSchema = new Schema(
-  {
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-    },
-    email: {
-      type: String,
-      required: [true, 'Email is required'],
-      unique: true,
-    },
-    subscription: {
-      type: String,
-      enum: ["starter", "pro", "business"],
-      default: "starter"
-    },
-    token: {
-      type: String,
-      default: null,
-    },
-    owner: {
-      type: SchemaTypes.ObjectId,
-      ref: 'user',
-    }
-  }
-);
+const userSchema = new Schema({
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+  },
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+  },
+  subscription: {
+    type: String,
+    enum: ["starter", "pro", "business"],
+    default: "starter",
+  },
+  token: {
+    type: String,
+    default: null,
+  },
+  owner: {
+    type: SchemaTypes.ObjectId,
+    ref: "user",
+  },
+  avatarURL: String,
+});
 
 userSchema.post("save", handleSchemaValidationErrors);
 
 userSchema.methods.validatePassword = function (password) {
   return bcrypt.compare(password, this.password);
-}
+};
 
 const registerSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
@@ -51,7 +50,7 @@ const loginSchema = Joi.object({
 
 const schemes = {
   registerSchema,
-  loginSchema
+  loginSchema,
 };
 
 const User = model("user", userSchema);
